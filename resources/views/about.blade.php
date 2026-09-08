@@ -28,7 +28,7 @@
             <a href="https://portfolio-chi-nine-14.vercel.app/"
                target="_blank"
                rel="noopener noreferrer">
-                Mi portfolio
+                https://portfolio-chi-nine-14.vercel.app/
             </a>
         </p>
 
