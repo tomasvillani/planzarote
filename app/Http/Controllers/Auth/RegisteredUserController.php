@@ -30,11 +30,40 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $request->validate(
+            [
+                'name' => ['required', 'string', 'max:255'],
+
+                'email' => [
+                    'required',
+                    'string',
+                    'lowercase',
+                    'email',
+                    'regex:/^[^@\s]+@[^@\s]+\.[^@\s]+$/',
+                    'max:255',
+                    'unique:'.User::class
+                ],
+
+                'password' => [
+                    'required',
+                    'confirmed',
+                    Rules\Password::defaults()
+                ],
+            ],
+            [
+                'name.required' => 'El nombre es obligatorio.',
+                'name.max' => 'El nombre no puede tener más de 255 caracteres.',
+
+                'email.required' => 'El correo electrónico es obligatorio.',
+                'email.email' => 'Introduce un correo electrónico válido.',
+                'email.regex' => 'El correo electrónico debe tener el formato texto@texto.texto.',
+                'email.unique' => 'Este correo electrónico ya está registrado.',
+                'email.max' => 'El correo electrónico no puede tener más de 255 caracteres.',
+
+                'password.required' => 'La contraseña es obligatoria.',
+                'password.confirmed' => 'Las contraseñas no coinciden.',
+            ]
+        );
 
         $user = User::create([
             'name' => $request->name,
