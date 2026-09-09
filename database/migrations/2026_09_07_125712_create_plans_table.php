@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
+
+            $table->string('nombre');
+            $table->text('descripcion');
+            $table->string('ubicacion');
+            $table->dateTime('fecha');
+            $table->string('imagen')->nullable();
+
+            $table->foreignId('user_id')
+                  ->constrained('users')
+                  ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

@@ -148,7 +148,7 @@
            class="form-control me-2"
            type="search"
            name="q"
-           placeholder="¿Qué apetece hacer hoy?"
+           placeholder="¿Qué te apetece hacer hoy?"
            aria-label="Buscar"
            style="max-width: 500px;">
 
