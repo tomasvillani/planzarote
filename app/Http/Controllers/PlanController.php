@@ -6,6 +6,7 @@ use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class PlanController extends Controller
 {
@@ -103,7 +104,116 @@ class PlanController extends Controller
         ]);
 
         return redirect()
-            ->route('plans.myplans')
+            ->route('myplans.index')
             ->with('success', 'El plan se ha publicado correctamente.');
     }
+
+    /**
+     * Mostrar un plan concreto.
+     */
+    public function show(Plan $plan): View
+    {
+        return view('plans.show', [
+            'plan' => $plan,
+        ]);
+    }
+
+    /**
+     * Mostrar el formulario para editar un plan.
+     */
+    public function edit(Plan $plan): View
+    {
+        if ($plan->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        return view('myplans.edit', [
+            'plan' => $plan,
+        ]);
+    }
+
+    /**
+     * Actualizar un plan.
+     */
+    public function update(Request $request, Plan $plan): RedirectResponse
+    {
+        if ($plan->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'nombre' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'descripcion' => [
+                'required',
+                'string',
+            ],
+
+            'ubicacion' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'fecha' => [
+                'required',
+                'date',
+                'after:' . now()->endOfDay(),
+            ],
+
+            'imagen' => [
+                'nullable',
+                'image',
+                'max:2048',
+            ],
+        ]);
+
+        // Eliminar la imagen actual si se ha marcado la casilla
+        if ($request->has('eliminar_imagen') && $plan->imagen) {
+
+            Storage::disk('public')->delete($plan->imagen);
+
+            $plan->imagen = null;
+        }
+
+        // Si se ha subido una imagen nueva
+        if ($request->hasFile('imagen')) {
+
+            // Eliminar la imagen anterior si existe
+            if ($plan->imagen) {
+                Storage::disk('public')->delete($plan->imagen);
+            }
+
+            $plan->imagen = $request->file('imagen')->store('planes', 'public');
+        }
+
+        $plan->nombre = $request->nombre;
+        $plan->descripcion = $request->descripcion;
+        $plan->ubicacion = $request->ubicacion;
+        $plan->fecha = $request->fecha;
+
+        $plan->save();
+
+        return redirect()
+            ->route('myplans.index')
+            ->with('success', 'El plan se ha actualizado correctamente.');
+    }
+
+    public function destroy(Plan $plan): RedirectResponse
+    {
+        if ($plan->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $plan->delete();
+
+        return redirect()
+            ->route('myplans.index')
+            ->with('success', 'El plan se ha eliminado correctamente.');
+    }
+
 }

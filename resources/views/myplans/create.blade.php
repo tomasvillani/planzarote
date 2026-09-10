@@ -1,4 +1,3 @@
-```blade
 @extends('layouts.layout')
 
 @section('title', 'Crear Nuevo Plan')
@@ -55,7 +54,13 @@
                 Ubicación
             </label>
 
-            <input type="datetime-local" name="fecha" id="fecha" class="form-control" value="{{ old('fecha') }}" min="{{ now()->addDay()->startOfDay()->format('Y-m-d\TH:i') }}" required>
+            <input type="text"
+                name="ubicacion"
+                id="ubicacion"
+                class="form-control"
+                value="{{ old('ubicacion') }}"
+                placeholder="Ej: Arrecife, Lanzarote"
+                required>
         </div>
 
         <div class="mb-3">
@@ -64,11 +69,12 @@
             </label>
 
             <input type="datetime-local"
-                   name="fecha"
-                   id="fecha"
-                   class="form-control"
-                   value="{{ old('fecha') }}"
-                   required>
+                name="fecha"
+                id="fecha"
+                class="form-control"
+                value="{{ old('fecha') }}"
+                min="{{ now()->addDay()->startOfDay()->format('Y-m-d\TH:i') }}"
+                required>
         </div>
 
         <div class="mb-3">
@@ -88,7 +94,7 @@
             Publicar Plan
         </button>
 
-        <a href="{{ route('plans.myplans') }}"
+        <a href="{{ route('myplans.index') }}"
            class="btn btn-secondary">
             Cancelar
         </a>
