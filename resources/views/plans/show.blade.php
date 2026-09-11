@@ -67,6 +67,14 @@
                 {{ $plan->descripcion ?? 'Sin descripción disponible.' }}
             </p>
 
+            @if ($plan->participantes->count() > 0)
+                <p>
+                    <i class="bi bi-people"></i>
+                    <strong>Participantes:</strong>
+                    Se han apuntado {{ $plan->participantes->count() }} personas.
+                </p>
+            @endif
+
         </div>
 
         <div class="mt-4">
@@ -76,23 +84,52 @@
                 @if (auth()->id() === $plan->user_id)
 
                     <a href="{{ route('plans.participants', $plan) }}"
-                       class="btn btn-secondary btn-lg w-100 mb-2">
+                    class="btn btn-secondary btn-lg w-100 mb-2">
                         Ver participantes
                     </a>
 
                 @else
 
-                    <a href="#"
-                       class="btn btn-danger btn-lg w-100">
-                        ¡Me apunto!
-                    </a>
+                    @if ($yaParticipa)
+
+                        <button type="button"
+                                class="btn btn-success btn-lg w-100 mb-2"
+                                disabled>
+                            Ya estás apuntado
+                        </button>
+
+                        <form action="{{ route('plans.leave', $plan) }}"
+                            method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    class="btn btn-outline-danger btn-lg w-100"
+                                    onclick="return confirm('¿Quieres salir de este plan?');">
+                                Salir del plan
+                            </button>
+                        </form>
+
+                    @else
+
+                        <form action="{{ route('plans.join', $plan) }}"
+                            method="POST">
+                            @csrf
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-lg w-100">
+                                ¡Me apunto!
+                            </button>
+                        </form>
+
+                    @endif
 
                 @endif
 
             @else
 
                 <a href="{{ route('login') }}"
-                   class="btn btn-danger btn-lg w-100">
+                class="btn btn-danger btn-lg w-100">
                     ¡Me apunto!
                 </a>
 

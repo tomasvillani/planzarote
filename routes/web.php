@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PlanController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ParticipanteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -74,16 +75,16 @@ Route::middleware('auth')->group(function () {
 
     // Participación en planes
 
-    Route::post('/plans/{plan}/join', [PlanController::class, 'join'])
+    Route::post('/plans/{plan}/join', [ParticipanteController::class, 'store'])
         ->name('plans.join');
 
-    Route::delete('/plans/{plan}/leave', [PlanController::class, 'leave'])
+    Route::delete('/plans/{plan}/leave', [ParticipanteController::class, 'destroy'])
         ->name('plans.leave');
 
 
     // Participantes
 
-    Route::get('/plans/{plan}/participants', [PlanController::class, 'participants'])
+    Route::get('/plans/{plan}/participants', [ParticipanteController::class, 'index'])
         ->name('plans.participants');
 });
 
