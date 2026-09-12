@@ -122,13 +122,20 @@ php artisan serve
 
 De esta manera, si accedes por 127.0.0.1:8000, la página debe aparecer sin problema.
 
-### Tareas programadas (opcional)
+### Tareas programadas
 
-LanzaroTCG incluye una tarea programada que elimina automáticamente los intercambios caducados y las cartas asociadas a partir del día siguiente de la propuesta.
+**PLanzarote** incluye una tarea programada encargada de eliminar automáticamente los planes cuya fecha ya haya pasado.
 
-Para que esta funcionalidad funcione correctamente en entornos de producción, debes añadir el siguiente cron job a tu sistema:
+El comando utilizado para realizar esta operación es:
 ```
-* * * * * cd lanzarotcg && php artisan schedule:run >> /dev/null 2>&1
+php artisan plans:delete-expired
+```
+
+El planificador de Laravel ejecuta este comando periódicamente para mantener la aplicación actualizada y evitar que permanezcan planes caducados.
+
+Para ejecutar el planificador durante el desarrollo se puede utilizar:
+```
+php artisan schedule:work
 ```
 
 ## Documentos de interés
