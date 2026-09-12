@@ -142,7 +142,7 @@ php artisan schedule:work
 
 Consulta los siguientes documentos para obtener información detallada sobre el proceso de desarrollo:
 
-- [Documento de análisis](https://drive.google.com/file/d/1_joewc-Ar3ZhQeVT_3ke7yeTwujPG66H/view?usp=sharing)
+- [Documento de análisis](https://drive.google.com/file/d/1D7ULzqb4AtqkEVHwsxR8ogC-E8pXDdbb/view?usp=sharing)
 - [Documento de diseño](https://drive.google.com/file/d/1kz90s_v_uX1hI27YHdHZfT7oKyFxMaCa/view?usp=sharing)
 
 ## Visita el Proyecto Online
