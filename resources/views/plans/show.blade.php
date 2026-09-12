@@ -71,7 +71,9 @@
                 <p>
                     <i class="bi bi-people"></i>
                     <strong>Participantes:</strong>
-                    Se han apuntado {{ $plan->participantes->count() }} personas.
+                    Se {{ $plan->participantes->count() === 1 ? 'ha' : 'han' }} apuntado
+                    {{ $plan->participantes->count() }}
+                    {{ $plan->participantes->count() === 1 ? 'persona' : 'personas' }}.
                 </p>
             @endif
 

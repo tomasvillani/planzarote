@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plan;
+use App\Models\Participante;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class PlanController extends Controller
 {
@@ -44,48 +45,23 @@ class PlanController extends Controller
         ]);
     }
 
-    /**
-     * Mostrar el formulario para crear un nuevo plan.
-     */
     public function create(): View
     {
         return view('myplans.create');
     }
 
-    /**
-     * Guardar un nuevo plan.
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'nombre' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'descripcion' => [
-                'required',
-                'string',
-            ],
-
-            'ubicacion' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
+            'nombre' => ['required', 'string', 'max:255'],
+            'descripcion' => ['required', 'string'],
+            'ubicacion' => ['required', 'string', 'max:255'],
             'fecha' => [
                 'required',
                 'date',
                 'after:' . now()->endOfDay(),
             ],
-
-            'imagen' => [
-                'nullable',
-                'image',
-                'max:2048',
-            ],
+            'imagen' => ['nullable', 'image', 'max:2048'],
         ]);
 
         $imagen = null;
@@ -108,19 +84,22 @@ class PlanController extends Controller
             ->with('success', 'El plan se ha publicado correctamente.');
     }
 
-    /**
-     * Mostrar un plan concreto.
-     */
     public function show(Plan $plan): View
     {
+        $yaParticipa = false;
+
+        if (auth()->check()) {
+            $yaParticipa = Participante::where('user_id', auth()->id())
+                ->where('plan_id', $plan->id)
+                ->exists();
+        }
+
         return view('plans.show', [
             'plan' => $plan,
+            'yaParticipa' => $yaParticipa,
         ]);
     }
 
-    /**
-     * Mostrar el formulario para editar un plan.
-     */
     public function edit(Plan $plan): View
     {
         if ($plan->user_id !== auth()->id()) {
@@ -132,9 +111,6 @@ class PlanController extends Controller
         ]);
     }
 
-    /**
-     * Actualizar un plan.
-     */
     public function update(Request $request, Plan $plan): RedirectResponse
     {
         if ($plan->user_id !== auth()->id()) {
@@ -142,48 +118,23 @@ class PlanController extends Controller
         }
 
         $request->validate([
-            'nombre' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'descripcion' => [
-                'required',
-                'string',
-            ],
-
-            'ubicacion' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
+            'nombre' => ['required', 'string', 'max:255'],
+            'descripcion' => ['required', 'string'],
+            'ubicacion' => ['required', 'string', 'max:255'],
             'fecha' => [
                 'required',
                 'date',
                 'after:' . now()->endOfDay(),
             ],
-
-            'imagen' => [
-                'nullable',
-                'image',
-                'max:2048',
-            ],
+            'imagen' => ['nullable', 'image', 'max:2048'],
         ]);
 
-        // Eliminar la imagen actual si se ha marcado la casilla
         if ($request->has('eliminar_imagen') && $plan->imagen) {
-
             Storage::disk('public')->delete($plan->imagen);
-
             $plan->imagen = null;
         }
 
-        // Si se ha subido una imagen nueva
         if ($request->hasFile('imagen')) {
-
-            // Eliminar la imagen anterior si existe
             if ($plan->imagen) {
                 Storage::disk('public')->delete($plan->imagen);
             }
@@ -215,5 +166,4 @@ class PlanController extends Controller
             ->route('myplans.index')
             ->with('success', 'El plan se ha eliminado correctamente.');
     }
-
 }

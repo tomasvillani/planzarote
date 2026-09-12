@@ -48,6 +48,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/myplans', [PlanController::class, 'myPlans'])
         ->name('myplans.index');
 
+        
+    // Mis participaciones
+    Route::get('/myparticipations', [ParticipanteController::class, 'myParticipations'])
+    ->name('plans.myparticipations');
+
 
     // Crear planes
 

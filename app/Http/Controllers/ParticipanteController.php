@@ -42,9 +42,9 @@ class ParticipanteController extends Controller
         return back()->with('success', 'Te has apuntado al plan correctamente.');
     }
 
-
     /**
-     * Creador: ver los participantes de su plan.
+     * Ver los participantes de un plan.
+     * Solo puede acceder el creador del plan.
      */
     public function index(Plan $plan): View
     {
@@ -57,9 +57,11 @@ class ParticipanteController extends Controller
             ->latest()
             ->paginate(12);
 
-        return view('participants.index', compact('plan', 'participantes'));
+        return view('participantes.index', [
+            'plan' => $plan,
+            'participantes' => $participantes,
+        ]);
     }
-
 
     /**
      * Usuario: salir de un plan.
@@ -79,5 +81,20 @@ class ParticipanteController extends Controller
         $participante->delete();
 
         return back()->with('success', 'Has salido del plan correctamente.');
+    }
+
+    /**
+     * Usuario: ver los planes en los que participa.
+     */
+    public function myParticipations(Request $request): View
+    {
+        $participantes = Participante::with('plan')
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->paginate(12);
+
+        return view('participaciones.index', [
+            'participantes' => $participantes,
+        ]);
     }
 }
