@@ -145,6 +145,10 @@ Consulta los siguientes documentos para obtener información detallada sobre el 
 - [Documento de análisis](https://drive.google.com/file/d/1_joewc-Ar3ZhQeVT_3ke7yeTwujPG66H/view?usp=sharing)
 - [Documento de diseño](https://drive.google.com/file/d/1kz90s_v_uX1hI27YHdHZfT7oKyFxMaCa/view?usp=sharing)
 
+## Visita el Proyecto Online
+
+Puedes visitar mi página web [aquí](https://planzarote.alwaysdata.net/)
+
 ## Vídeo de Youtube
 
 Puedes ver el vídeo del proyecto en Youtube [aquí](https://youtu.be/EuI-VvmQIAs?si=j_X0VAPsXDQnODFg)
