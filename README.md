@@ -4,7 +4,7 @@
 
 **PLanzarote** es una plataforma web diseñada para facilitar la creación, descubrimiento y participación en planes y actividades en Lanzarote. Los usuarios pueden crear sus propios planes, consultar actividades disponibles y apuntarse a aquellas que sean de su interés.
 
-**PLanzarote** surge de mi interés tanto por el desarrollo web como por la creación de aplicaciones destinadas a conectar a personas. La idea es ofrecer un espacio sencillo donde los usuarios puedan proponer actividades y encontrar personas interesadas en participar en ellas.
+**PLanzarote** está planteada como un espacio digital para facilitar la organización de actividades y la conexión entre personas que comparten intereses. La plataforma permite a los usuarios proponer sus propios planes, descubrir nuevas actividades y encontrar personas interesadas en participar en ellas.
 
 Además, **PLanzarote** busca cubrir una necesidad dentro de la comunidad de Lanzarote, proporcionando un punto de encuentro digital para organizar actividades de ocio, deporte, excursiones, reuniones y cualquier otro tipo de plan.
 
